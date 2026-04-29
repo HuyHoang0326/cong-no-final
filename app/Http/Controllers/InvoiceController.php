@@ -14,7 +14,7 @@ class InvoiceController extends Controller
      */
 
     protected $handler;
-     protected $service;
+    protected $service;
     public function __construct(
         InvoiceHandler $handler,
         InvoiceService $service)
@@ -36,7 +36,8 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        return view('invoice.create');
+        $nextCode = $this->getNextInvoiceCode();
+         return view('invoice.create', compact('nextCode'));
     }
 
     /**
@@ -117,4 +118,23 @@ class InvoiceController extends Controller
         $invoices =  $invoiceStatus['danger'];
         return view('invoice.list_invoice_status_2', compact('invoices','invoiceStatus'));
     }
+
+    private function getNextInvoiceCode()
+{
+    $today = now()->format('dmy');
+
+    $lastInvoice = Invoice::whereDate('created_at', now())
+        ->where('code', 'like', "HD{$today}%")
+        ->orderBy('code', 'desc')
+        ->first();
+
+    if ($lastInvoice) {
+        $lastNumber = (int) substr($lastInvoice->code, 8);
+        $nextNumber = $lastNumber + 1;
+    } else {
+        $nextNumber = 0;
+    }
+
+    return 'HD' . $today . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
+}
 }

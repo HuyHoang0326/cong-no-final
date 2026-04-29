@@ -249,8 +249,10 @@
 
                       </div>
                   @endforeach
-
               </div>
+                        <button type="button" class="btn-print" onclick="printInvoice()">
+    🖨 In hóa đơn
+</button>
           </div>
           <div id="invoice-preview" class="invoice-print"></div>
       </div>

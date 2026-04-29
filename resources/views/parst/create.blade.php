@@ -21,6 +21,15 @@
             </a>
         </div>
         <div class="card">
+             <form action="{{ route('import.upload.parst') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <input type="file" name="file" id="excelInputCar" hidden onchange="this.form.submit()">
+            </form>
+
+            <button type="button" onclick="document.getElementById('excelInputCar').click()" id="excelCar">
+                📥 Nhập Excel Phụ Tùng
+            </button>
             <form id="parstForm" method="POST" action="{{ route('parsts.store') }}">
                 @csrf
 
@@ -123,17 +132,11 @@
                             <option value="">-- Chọn --</option>
                             <option value="0">Trong kho</option>
                             <option value="1">Đã bán</option>
-                            <option value="2">Đã đặt</option>
+                            <option value="2">Chưa về bãi</option>
                         </select>
                         <div class="error" id="error-sale_status"></div>
                     </div>
-
-                    <div class="form-group">
-                        <label>Ngày Bán</label>
-                        <input type="date" id="sale_date" name="sale_date">
-                        <div class="error" id="error-sale_date"></div>
-                    </div>
-
+                    
                     <div class="form-group">
                         <label>Giá Bán</label>
                         <input type="number" id="sale_price" name="sale_price">

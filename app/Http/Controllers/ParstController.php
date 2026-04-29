@@ -151,6 +151,40 @@ class ParstController extends Controller
         return response()->json($parsts);
     }
 
+    public function searchName(Request $request)
+{
+    $keyword = $request->keyword;
+
+    $parsts = Parst::with('parstsCategory:id,name')
+        ->where('name', 'LIKE', '%' . $keyword . '%') // 🔥 search name
+        ->limit(10)
+        ->get([
+            'id',
+            'code',
+            'name',
+            'parst_category_id',
+            'item_condition',
+            'supplier_id',
+            'quantity',
+            'unit',
+            'sale_price'
+        ])
+        ->map(function ($parst) {
+            return [
+                'id' => $parst->id,
+                'code' => $parst->code,
+                'name' => $parst->name,
+                'category_name' => $parst->parstsCategory?->name,
+                'condition' => $parst->item_condition,
+                'supplier' => $parst->supplier_id,
+                'quantity' => $parst->quantity,
+                'unit' => $parst->unit,
+                'sale_price' => $parst->sale_price,
+            ];
+        });
+
+    return response()->json($parsts);
+}
     public function getConditionNew()
     {
         $parsts =  $this->service->getConditionNew();

@@ -5,6 +5,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceItemController;
 use App\Http\Controllers\JobController;
@@ -16,9 +17,27 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[DashboardController::class, 'index'])->name('dashboard');
 Route::get('/job',[JobController::class, 'index'])->name('jobs.index');
+// -----------------excel----------------------
+// CAR
+Route::post('import/car/upload', [ImportController::class, 'uploadCar'])->name('import.upload.car');
+Route::get('import/car/mapping', [ImportController::class, 'viewMappingCar'])->name('import.mapping.car');
+Route::post('import/car/run', [ImportController::class, 'runCar'])->name('import.run.car');
+Route::get('import/car/preview', [ImportController::class, 'previewCar'])->name('import.preview.car');
+Route::post('import/car/store', [ImportController::class, 'storeCar'])->name('import.store.car');
+
+// PARST
+Route::post('import/parst/upload', [ImportController::class, 'uploadParst'])->name('import.upload.parst');
+Route::get('import/parst/mapping', [ImportController::class, 'viewMappingParst'])->name('import.mapping.parst');
+Route::post('import/parst/run', [ImportController::class, 'runParst'])->name('import.run.parst');
+Route::get('import/parst/preview', [ImportController::class, 'previewParst'])->name('import.preview.parst');
+Route::post('import/parst/store', [ImportController::class, 'storeParst'])->name('import.store.parst');
 // ----------------search---------------------
 Route::get('/cars/search-serial', [CarController::class, 'searchSerial']);
+Route::get('/cars/search-name', [CarController::class, 'searchName']);
+// -----parst----
 Route::get('/parsts/search-serial', [ParstController::class, 'searchSerial']);
+Route::get('/parsts/search-name', [ParstController::class, 'searchName']);
+// ----custom----
 Route::get('/customers/search', [CustomerController::class, 'searchName']);
 //----------------parst condition ----------------------
 Route::get('parsts/new', [ParstController::class, 'getConditionNew'])->name('parsts.new');

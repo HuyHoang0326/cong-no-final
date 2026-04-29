@@ -149,14 +149,6 @@
                         <div class="error" id="error-sale_status"></div>
                     </div>
 
-                    <!-- SALE DATE -->
-                    <div class="form-group">
-                        <label>Ngày Bán</label>
-                        <input type="date" id="sale_date" name="sale_date"
-                            value="{{ old('sale_date', $parst->sale_date) }}">
-                        <div class="error" id="error-sale_date"></div>
-                    </div>
-
                     <!-- SALE INVOICE -->
                     <div class="form-group">
                         <label>Giá Hóa Đơn</label>

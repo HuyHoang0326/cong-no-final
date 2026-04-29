@@ -5,6 +5,7 @@ body{
   color: #1e293b; 
   display:flex;
   min-height:100vh;
+  overflow-x: hidden;
 }
 
 /* SIDEBAR */
@@ -43,6 +44,8 @@ body{
 
 /* MAIN */
 .main{
+   width: 100%;
+  max-width: 100%;
   flex:1;
   padding:40px;
 }
@@ -224,3 +227,142 @@ tr.clickable-row {
     border-radius: 20px;
     font-weight: 500;
 }
+
+.pagination {
+    margin-top: 12px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* nút thường */
+.pagination button {
+    padding: 6px 12px;
+    border: 1px solid #dbeafe;
+    background: #eff6ff; /* xanh rất nhạt */
+    color: #1e3a8a; /* xanh đậm */
+
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 500;
+
+    transition: all 0.2s ease;
+}
+
+/* hover */
+.pagination button:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+}
+
+/* active */
+.pagination button.active {
+    background: #2563eb; /* xanh chính */
+    color: #fff;
+    border-color: #2563eb;
+}
+
+/* disabled */
+.pagination button:disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+
+  /* ẨN SIDEBAR */
+  .sidebar {
+    display: none;
+  }
+
+  /* MAIN FULL WIDTH */
+  .main {
+    padding: 16px;
+  }
+
+  /* TOPBAR */
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .topbar h1 {
+    font-size: 20px;
+  }
+
+  .topbar div {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+  }
+
+  .topbar input {
+    flex: 1;
+    width: 100%;
+  }
+
+  .btn-primary {
+    font-size: 14px;
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+
+  /* STATS → 1 cột */
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .card h3 {
+    font-size: 16px;
+  }
+
+  .card p {
+    font-size: 18px;
+  }
+
+  /* TABLE */
+  .table-container {
+    width: 100%;
+    overflow-x: auto; /* 🔥 QUAN TRỌNG */
+  }
+
+  table {
+     min-width: unset;
+     width: 100%;
+  }
+
+  th {
+    font-size: 13px;
+  }
+
+  td {
+     word-break: break-word;
+  white-space: normal;
+  font-size: 12px;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+
+  /* STATUS nhỏ lại */
+  .status-pending,
+  .status-success,
+  .status-danger {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+
+  /* PAGINATION */
+  .pagination {
+    justify-content: center;
+  }
+
+  .pagination button {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+}   

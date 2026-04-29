@@ -96,15 +96,21 @@ function renderInvoicePreviewEdit() {
     });
     // ===== RENDER =====
     preview.innerHTML = `
-    <div class="title">HOÁ ĐƠN BÁN HÀNG</div>
-
+    <div class = "logo">
+        <div class="title">XE NÂNG HOA QUYẾT NINH BÌNH</div>
+        <div class = "head-inf">CHUYÊN: BÁN XE NÂNG DẦU, XĂNG, ĐIỆN NHẬT BÃI</div>
+        <div class = "head-inf">PHỤ TÙNG XE NÂNG CÁC LOẠI</div>
+        <div class = "head-inf">Địa chỉ: xóm 1 - Yên Mạc - Ninh Bình</div>
+        <div class = "head-inf">Điện thoại: 0986.670.666 - 0966.172.101</div>
+    </div>
+    <hr>
+    <br>
+    <div class="hdbh">HOÁ ĐƠN BÁN HÀNG</div>
     <div class="sub-header">
-        <div>NGÀY ${day} THÁNG ${month} NĂM ${year}</div>
         <div>Số: ${invoiceCode}</div>
     </div>
-
+<p><strong>Tên khách hàng:</strong> ${customer} - ${customer_phone}</p>
     <p><strong>Người nhận hàng:</strong> ${receiver_name}</p>
-    <p><strong>Đơn vị:</strong> ${customer} - ${customer_phone}</p>
     <p><strong>Địa chỉ:</strong> ${customer_address}</p>
 
     <table>
@@ -124,7 +130,7 @@ function renderInvoicePreviewEdit() {
         </tbody>
     </table>
 
-    <table>
+    <table class="total-table">
         <tr>
             <td class="text-right"><strong>CỘNG TIỀN HÀNG:</strong></td>
             <td class="text-right">${formatMoney(total)}</td>
@@ -153,7 +159,7 @@ document.querySelectorAll("form").forEach(form => {
     form.addEventListener("submit", function () {
 
         this.querySelectorAll(".format-number").forEach(input => {
-           input.value = input.value.replace(/[.,]/g, '');
+            input.value = input.value.replace(/[.,]/g, '');
         });
 
     });
@@ -165,4 +171,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function formatMoney(number) {
     return Number(number || 0).toLocaleString('vi-VN');
+}
+// ---------------export invoice----------------
+function printInvoice() {
+    const content = document.getElementById("invoice-preview").innerHTML;
+
+    const printWindow = window.open('', '', 'width=900,height=700');
+
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>In hóa đơn</title>
+            <style>
+                body { font-family: Arial; padding: 20px; }
+                .logo{margin-top:-25px}
+                .hdbh{margin-top:-15px; text-align: center; font-weight: bold; font-size: 16px;}
+                .total-table{margin-top:10px}
+                tr {font-size: 12px;}
+                table { width: 100%; border-collapse: collapse; }
+                table, th, td { border: 1px solid #000; }
+                th, td { padding: 6px; text-align: center; }
+                .title { text-align: center; font-weight: bold; font-size: 20px;}
+                .text-right { text-align: right; }
+                .head-inf{
+    text-align: center;
+}
+ .sub-header {
+    text-align: center;
+    margin: 5px 0 10px;
+    font-weight: bold;
+}
+    .date-button{
+    margin-top: 20px;
+    display: flex;
+    justify-content: right;
+    font-weight: bold;
+}
+.signature {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+            </style>
+        </head>
+        <body>
+            ${content}
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.print();
 }

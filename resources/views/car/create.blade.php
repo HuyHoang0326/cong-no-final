@@ -24,6 +24,15 @@
             </a>
         </div>
         <div class="card">
+            <form action="{{ route('import.upload.car') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <input type="file" name="file" id="excelInputCar" hidden onchange="this.form.submit()">
+            </form>
+
+            <button type="button" onclick="document.getElementById('excelInputCar').click()" id="excelCar">
+                📥 Nhập Excel Xe
+            </button>
             <form id="carForm" method="POST" action="{{ route('cars.store') }}">
                 @csrf
 
@@ -31,9 +40,42 @@
 
                     <!-- CODE -->
                     <div class="form-group">
+                        <label>Số Khung</label>
+                        <input type="text" id="chassis_number" name="chassis_number">
+                        <div class="error" id="error-chassis_number"></div>
+                    </div>
+
+                    <!-- CODE -->
+                    <div class="form-group">
                         <label>Seri</label>
                         <input type="text" id="code" name="code">
                         <div class="error" id="error-code"></div>
+                    </div>
+
+                    <!-- ENGINE -->
+                    <div class="form-group">
+                        <label>Số Máy</label>
+                        <input type="text" id="engine_number" name="engine_number">
+                        <div class="error" id="error-engine_number"></div>
+                    </div>
+
+                    <!-- PAYLOAD -->
+                    <div class="form-group">
+                        <label>Trọng Tải</label>
+                        <select id="payload" name="payload">
+                            <option value="">-- Chọn trọng tải --</option>
+                            <option value="1">1 tấn</option>
+                            <option value="1.5">1.5 tấn</option>
+                            <option value="2">2 tấn</option>
+                            <option value="2.5">2.5 tấn</option>
+                            <option value="3">3 tấn</option>
+                            <option value="3.5">3.5 tấn</option>
+                            <option value="5">5 tấn</option>
+                            <option value="6">6 tấn</option>
+                            <option value="7">7 tấn</option>
+                            <option value="10">10 tấn</option>
+                        </select>
+                        <div class="error" id="error-payload"></div>
                     </div>
 
                     <!-- NAME -->
@@ -54,28 +96,6 @@
                         </select>
                         <div class="error" id="error-brand_id"></div>
                     </div>
-
-                    <!-- ENGINE -->
-                    <div class="form-group">
-                        <label>Số Máy</label>
-                        <input type="text" id="engine_number" name="engine_number">
-                        <div class="error" id="error-engine_number"></div>
-                    </div>
-
-                    <!-- CHASSIS -->
-                    <div class="form-group">
-                        <label>Số Khung</label>
-                        <input type="text" id="chassis_number" name="chassis_number">
-                        <div class="error" id="error-chassis_number"></div>
-                    </div>
-
-                    <!-- PAYLOAD -->
-                    <div class="form-group">
-                        <label>Trọng Tải</label>
-                        <input type="text" id="payload" name="payload">
-                        <div class="error" id="error-payload"></div>
-                    </div>
-
                     <!-- SUPPLIER -->
                     <div class="form-group">
                         <label>Nhà Cung Cấp</label>

@@ -4,7 +4,6 @@ document.getElementById('invoiceForm')?.addEventListener('submit', function (e) 
     document.querySelectorAll('.error').forEach(el => el.innerText = '');
 
     // ===== GET VALUE =====
-    const code = document.getElementById('code').value.trim();
     const customer_name = document.getElementById('customer_name').value.trim();
     const phone = document.getElementById('customer_phone').value.trim();
     const address = document.getElementById('customer_address').value.trim();
@@ -28,8 +27,6 @@ document.getElementById('invoiceForm')?.addEventListener('submit', function (e) 
         }
         return true;
     }
-
-    if (!required(code, 'code', 'Mã hóa đơn')) isValid = false;
 
     // 👉 nếu KHÔNG phải khách ngoài thì mới check
     if (!isGuest) {

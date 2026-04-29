@@ -26,9 +26,7 @@ document.getElementById('carForm')?.addEventListener('submit', function (e) {
     }
 
     if (!required(code, 'code', 'Mã xe')) isValid = false;
-    if (!required(name, 'name', 'Tên xe')) isValid = false;
     if (!required(brand, 'brand_id', 'Hãng')) isValid = false;
-    if (!required(engine, 'engine_number', 'Số máy')) isValid = false;
     if (!required(chassis, 'chassis_number', 'Số khung')) isValid = false;
     if (!required(payload, 'payload', 'Trọng tải')) isValid = false;
     if (!required(supplier, 'supplier_id', 'Nhà cung cấp')) isValid = false;

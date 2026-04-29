@@ -9,7 +9,7 @@ class InvoiceService
     public function create($data, $isPaid)
     {
         return Invoice::create([
-            'code' => $data->code,
+            'code' => $this->generateInvoiceCode(),
             'customer_id' => $data->customer_id ?? 0,
             'customer_name' => $data->customer_name,
             'customer_phone' => $data->customer_phone,
@@ -91,4 +91,24 @@ class InvoiceService
 
         return $invoice;
     }
+
+    private function generateInvoiceCode()
+{
+    $today = now()->format('dmy');
+
+    $lastInvoice = Invoice::whereDate('created_at', now())
+        ->where('code', 'like', "HD{$today}%")
+        ->orderBy('code', 'desc')
+        ->first();
+
+    if ($lastInvoice) {
+        // lấy phần số phía sau
+        $lastNumber = (int) substr($lastInvoice->code, 8); 
+        $nextNumber = $lastNumber + 1;
+    } else {
+        $nextNumber = 0;
+    }
+
+    return 'HD' . $today . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
+}
 }

@@ -157,7 +157,9 @@
     display: flex;
     flex-direction: column;
 }
-
+label{
+    font-weight: bold;
+}
 .detail-item label {
     font-size: 19px;
     color: #64748b;;
@@ -356,4 +358,126 @@
     font-size: 20px;
     margin-top: 4px;
     min-height: 16px;
+}
+
+.btn-print {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+/* hover */
+.btn-print:hover {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
+}
+
+/* active */
+.btn-print:active {
+    transform: scale(0.97);
+}
+
+/* mobile */
+@media (max-width: 768px) {
+    .btn-print {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.head-inf{
+    text-align: center;
+}
+
+.hdbh{margin-top:-15px; text-align: center; font-weight: bold; font-size: 16px;}
+.sub-header{margin-top:-15px; text-align: center; font-weight: bold; font-size: 16px;}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+    /* ẨN SIDEBAR */
+    .sidebar {
+        display: none;
+    }
+
+    /* MAIN FULL */
+    .main {
+        padding: 16px;
+    }
+
+    /* HEADER */
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .header h1 {
+        font-size: 20px;
+    }
+
+    /* BUTTON */
+    .btn {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+
+    /* CARD */
+    .card {
+        padding: 16px;
+    }
+
+    /* GRID DETAIL → 1 CỘT */
+    .detail-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    /* ITEM */
+    .detail-item {
+        padding: 10px;
+    }
+
+    .detail-item label {
+        font-size: 13px;
+    }
+
+    .detail-item span {
+        font-size: 14px;
+        word-break: break-word; /* 🔥 chống tràn text */
+    }
+
+    /* PRODUCT GRID */
+    .product-grid {
+        grid-template-columns: 1fr; /* 1 sản phẩm / dòng */
+    }
+
+    /* PRODUCT CARD */
+    .product-card {
+        grid-template-columns: 1fr; /* mỗi field xuống dòng */
+        padding: 10px;
+    }
+
+    /* STATUS */
+    .status {
+        font-size: 11px;
+        padding: 3px 6px;
+    }
+
+    /* ERROR */
+    .error {
+        font-size: 13px;
+    }
+
+    /* PRINT BUTTON */
+    .btn-print {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px;
+    }
+
 }

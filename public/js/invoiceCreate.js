@@ -13,7 +13,7 @@ document
                 <tr class = >
                     <th>Xe/Phụ Tùng</th>
                     <th class="field-car">Mã Xe</th>
-                    <th class="field-car" readonly>Tên Xe</th>
+                    <th class="field-car">Tên Xe</th>
                     <th class="field-car" readonly>Hãng</th>
                     <th class="field-car" readonly>Số Máy</th>
                     <th class="field-car" readonly>Số Khung</th>
@@ -21,7 +21,7 @@ document
                     <th class="field-car">Đơn Giá Bán</th>
                     <th class="field-car" readonly>Đơn Giá Hóa Đơn Xe Xe</th>
                     <th class="field-parst">Mã Phụ Tùng</th>
-                    <th class="field-parst" readonly>Tên</th>
+                    <th class="field-parst">Tên</th>
                     <th class="field-parst" readonly>Loại Hàng</th>
                     <th class="field-parst" readonly>Cũ/Mới</th>
                     <th class="field-parst" readonly>Nhà Cung Cấp</th>
@@ -59,7 +59,8 @@ document
                         <input type="text"
                             name="items[${index}][car_name]"
                             class="car-name "
-                            placeholder="Tên Xe" readonly>
+                            placeholder="Tên Xe">
+                            <div class="suggest-box"></div> 
                     </td>
 
                     <td class="field-car">
@@ -113,7 +114,8 @@ document
                     <td class="field-parst">
                         <input type="text"
                             name="items[${index}][parst_name]"
-                            class="parst-name" readonly>
+                            class="parst-name">
+                             <div class="suggest-box"></div> 
                     </td>
 
                     <td class="field-parst">
@@ -172,6 +174,7 @@ document
             </tbody>
     `;
         invoiceItemBox.appendChild(newRow);
+        addTableLabels();
         //------------off class field parst--------------
         const parstFields = newRow.querySelectorAll(".field-parst");
         parstFields.forEach((el) => (el.style.display = "none"));
@@ -255,6 +258,57 @@ document.addEventListener("input", function (e) {
     }
 
 });
+// -------------seach name-----------------------------------------------------------
+document.addEventListener("input", function (e) {
+
+    if (e.target.classList.contains("car-name")) {
+
+        let keyword = e.target.value;
+        let suggestBox = e.target.closest(".field-car").querySelector(".suggest-box");
+
+        if (keyword.length === 0) {
+            suggestBox.innerHTML = "";
+            return;
+        }
+
+        fetch(`/cars/search-name?keyword=${keyword}`)
+            .then(res => res.json())
+            .then(data => {
+
+                suggestBox.innerHTML = "";
+
+                data.forEach(car => {
+
+                    let div = document.createElement("div");
+                    div.classList.add("suggest-item");
+
+                    // hiển thị đẹp hơn
+                    div.innerText = `${car.name} (${car.code})`;
+
+                    div.addEventListener("click", function () {
+
+                        let row = e.target.closest("tr");
+
+                        row.querySelector(".car-serial").value = car.code ?? '';
+                        row.querySelector(".car-name").value = car.name ?? '';
+                        row.querySelector(".car-brand").value = car.brand_name ?? '';
+                        row.querySelector(".car-engine").value = car.engine_number ?? '';
+                        row.querySelector(".car-chassis").value = car.chassis_number ?? '';
+                        row.querySelector(".car-payload").value = car.payload ?? '';
+                        row.querySelector(".car-price").value = formatMoney(car.sale_price) ?? '';
+                        row.querySelector(".car-invoice-price").value = formatMoney(car.sale_price) ?? '';
+
+                        suggestBox.innerHTML = "";
+                        calculateCarTotals();
+                        renderInvoicePreview();
+                    });
+
+                    suggestBox.appendChild(div);
+                });
+            });
+    }
+
+});
 // ---------- search serial parsts and fill field for input in add product for invoice-------------------
 document.addEventListener("input", function (e) {
 
@@ -301,6 +355,57 @@ document.addEventListener("input", function (e) {
                 });
             })
     }
+});
+//---------- search name parst for invoice-------------------
+document.addEventListener("input", function (e) {
+
+    if (e.target.classList.contains("parst-name")) {
+
+        let keyword = e.target.value;
+        let suggestBox = e.target.closest(".field-parst").querySelector(".suggest-box");
+
+        if (keyword.length === 0) {
+            suggestBox.innerHTML = "";
+            return;
+        }
+
+        fetch(`/parsts/search-name?keyword=${keyword}`)
+            .then(res => res.json())
+            .then(data => {
+
+                suggestBox.innerHTML = "";
+
+                data.forEach(parst => {
+
+                    let div = document.createElement("div");
+                    div.classList.add("suggest-item");
+
+                    // hiển thị đẹp hơn
+                    div.innerText = `${parst.name} (${parst.code})`;
+
+                    div.addEventListener("click", function () {
+
+                        let row = e.target.closest("tr");
+
+                        row.querySelector(".parst-code").value = parst.code ?? '';
+                        row.querySelector(".parst-name").value = parst.name ?? '';
+                        row.querySelector(".parst-category").value = parst.category_name ?? '';
+                        row.querySelector(".parst-condition").value = parst.condition ?? '';
+                        row.querySelector(".parst-supplier").value = parst.supplier ?? '';
+                        row.querySelector(".parst-stock-quantity").value = parst.quantity ?? '';
+                        row.querySelector(".parst-price").value = formatMoney(parst.sale_price) ?? '';
+                        row.querySelector(".parst-unit").value = parst.unit ?? '';
+
+                        suggestBox.innerHTML = "";
+
+                        calculateParstRow(row);
+                    });
+
+                    suggestBox.appendChild(div);
+                });
+            });
+    }
+
 });
 //---------- search name customer for invoice-------------------
 document.addEventListener("input", function (e) {
@@ -626,15 +731,23 @@ let totalPrice = 0;
 
     // ===== RENDER =====
     preview.innerHTML = `
-    <div class="title">HOÁ ĐƠN BÁN HÀNG</div>
+    <div class = "logo">
+        <div class="title">XE NÂNG HOA QUYẾT NINH BÌNH</div>
+        <div class = "head-inf">CHUYÊN: BÁN XE NÂNG DẦU, XĂNG, ĐIỆN NHẬT BÃI</div>
+        <div class = "head-inf">PHỤ TÙNG XE NÂNG CÁC LOẠI</div>
+        <div class = "head-inf">Địa chỉ: xóm 1 - Yên Mạc - Ninh Bình</div>
+        <div class = "head-inf">Điện thoại: 0986.670.666 - 0966.172.101</div>
+    </div>
+    <hr>
+    <br>
+    <div class="hdbh">HOÁ ĐƠN BÁN HÀNG</div>
 
     <div class="sub-header">
-        <div>NGÀY ${day} THÁNG ${month} NĂM ${year}</div>
         <div>Số: ${invoiceCode}</div>
     </div>
 
-    <p><strong>Người nhận hàng:</strong>${receiver_name}</p>
-    <p><strong>Đơn vị:</strong> ${customer}${customer_phone}</p>
+    <p><strong>Tên khách hàng:</strong> ${customer}${customer_phone}</p>
+    <p><strong>Tên người nhận hàng:</strong>${receiver_name}</p>
     <p><strong>Địa chỉ:</strong> ${customer_address}</p>
 
     <table>
@@ -654,7 +767,7 @@ let totalPrice = 0;
         </tbody>
     </table>
 
-    <table>
+    <table class="total-table">
         <tr>
             <td class="text-right"><strong>CỘNG TIỀN HÀNG:</strong></td>
             <td class="text-right">${formatMoney(totalPrice)}</td>
@@ -664,7 +777,7 @@ let totalPrice = 0;
             <td class="text-right">${formatMoney(totalPrice)}</td>
         </tr>
     </table>
-    <div class="date-button">NGÀY ${day} THÁNG ${month} NĂM ${year}</div>
+    <div class="date-button">Ngày ${day} Tháng ${month} Năm ${year}</div>
     <div class="signature">
         <div>NGƯỜI LẬP PHIẾU<br>(Ký)</div>
         <div>NGƯỜI NHẬN HÀNG<br>(Ký)</div>
@@ -672,7 +785,7 @@ let totalPrice = 0;
     </div>
 `;
 }
-
+// ------------------------------------
 function formatMoney(number) {
     return Number(number || 0).toLocaleString('vi-VN');
 }
@@ -690,3 +803,73 @@ document.querySelectorAll("form").forEach(form => {
 
     });
 });
+
+// ------------print-----------------
+function printInvoice() {
+    const content = document.getElementById("invoice-preview").innerHTML;
+
+    const printWindow = window.open('', '', 'width=900,height=700');
+
+    printWindow.document.write(`
+        <html>
+        <head>
+            <title>In hóa đơn</title>
+            <style>
+                body { font-family: Arial; padding: 20px; }
+                .logo{margin-top:-25px}
+                .hdbh{margin-top:-15px; text-align: center; font-weight: bold; font-size: 16px;}
+                .total-table{margin-top:10px}
+                tr {font-size: 12px;}
+                table { width: 100%; border-collapse: collapse; }
+                table, th, td { border: 1px solid #000; }
+                th, td { padding: 6px; text-align: center; }
+                .title { text-align: center; font-weight: bold; font-size: 20px;}
+                .text-right { text-align: right; }
+                .head-inf{
+    text-align: center;
+}
+ .sub-header {
+    text-align: center;
+    margin: 5px 0 10px;
+    font-weight: bold;
+}
+    .date-button{
+    margin-top: 20px;
+    display: flex;
+    justify-content: right;
+    font-weight: bold;
+}
+.signature {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+            </style>
+        </head>
+        <body>
+            ${content}
+        </body>
+        </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.print();
+}
+
+function addTableLabels() {
+    document.querySelectorAll(".invoice-table").forEach(table => {
+        const headers = Array.from(table.querySelectorAll("thead th")).map(th => th.innerText);
+
+        table.querySelectorAll("tbody tr").forEach(row => {
+            row.querySelectorAll("td").forEach((td, i) => {
+                td.setAttribute("data-label", headers[i] || "");
+            });
+        });
+    });
+}
+
+// chạy sau khi render
+setTimeout(addTableLabels, 500);

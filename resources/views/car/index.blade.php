@@ -13,12 +13,12 @@
         <div class="stats">
             <div class="card" active>
                 <h3>Xe</h3>
-                <p>{{$cars->count()}}</p>
+                <p>{{ $cars->count() }}</p>
             </div>
             <a href="{{ route('parsts.index') }}" class="card">
                 <div>
                     <h3>Phụ Tùng</h3>
-                    <p>{{$parst}}</p>
+                    <p>{{ $parst }}</p>
                 </div>
             </a>
         </div>
@@ -28,27 +28,30 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Số Khung</th>
                         <th>Seri</th>
                         <th>Tên</th>
-                        <th>Số Khung</th>
-                        <th>Giá Mua</th>
-                        <th>Giá Hoá Đơn</th>
+                        <th>Hãng</th>
+                        <th>Trọng tải</th>
                         <th>Giá Bán</th>
+                        <th>Nhà Cung Cấp</th>
                         <th>Trạng Thái</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($cars as $car )
+                    @foreach ($cars as $car)
                         <tr class="clickable-row" data-href="{{ route('cars.show', $car->id) }}">
+                            <td>{{ $car->chassis_number }}</td>
                             <td>{{ $car->code }}</td>
                             <td>{{ $car->name }}</td>
-                            <td>{{ $car->chassis_number }}</td>
-                            <td>{{ number_format($car->buy_price, 0, ',', '.') }}</td>
-                            <td>{{ number_format($car->sale_price_invoices, 0, ',', '.') }}</td>
+                            <td>{{ $car->carBrand->name ?? '' }}</td>
+                            <td>{{ $car->payload }}</td>
                             <td>{{ number_format($car->sale_price, 0, ',', '.') }}</td>
+                            <td>{{ $car->supplier->name ?? '' }}</td>
                             <td>
-                                <span  class="
-                                    {{  $car->sale_status == 0 ? 'status-success' : ( $car->sale_status == 1 ? 'status-danger' : 'status-pending') }}">
+                                <span
+                                    class="
+                                    {{ $car->sale_status == 0 ? 'status-success' : ($car->sale_status == 1 ? 'status-danger' : 'status-pending') }}">
                                     {{ $car->sale_status == 0 ? 'Trong kho' : ($car->sale_status == 1 ? 'Đã bán' : 'Đã đặt') }}
                                 </span>
                             </td>
@@ -62,6 +65,19 @@
                 <button>3</button>
             </div>
         </div>
- <script src="{{ asset('js/list.js') }}"></script>
+        <script src="{{ asset('js/list.js') }}"></script>
     </div>
+    <style>
+        @media (max-width: 768px) {
+
+            table th:nth-child(4),
+            table th:nth-child(6),
+            table th:nth-child(7),
+            table td:nth-child(4),
+            table td:nth-child(6),
+            table td:nth-child(7) {
+                display: none;
+            }
+        }
+    </style>
 @endsection

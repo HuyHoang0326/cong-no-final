@@ -38,7 +38,7 @@
 
                   <div class="detail-item">
                       <label>Số Máy</label>
-                      <span>{{ $car->engine_number }}.</span>
+                      <span>{{ $car->engine_number }}</span>
                   </div>
 
                   <div class="detail-item">

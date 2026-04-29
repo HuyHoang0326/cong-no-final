@@ -142,4 +142,37 @@ class CarController extends Controller
             });
         return response()->json($cars);
     }
+
+    public function searchName(Request $request)
+{
+    $keyword = $request->keyword;
+
+    $cars = Car::with('carBrand:id,name')
+        ->where('name', 'LIKE', '%' . $keyword . '%') // 🔥 search theo tên
+        ->limit(10)
+        ->get([
+            'id',
+            'code',
+            'name',
+            'brand_id',
+            'engine_number',
+            'chassis_number',
+            'payload',
+            'sale_price'
+        ])
+        ->map(function ($car) {
+            return [
+                'id' => $car->id,
+                'code' => $car->code,
+                'name' => $car->name,
+                'brand_name' => optional($car->carBrand)->name,
+                'engine_number' => $car->engine_number,
+                'chassis_number' => $car->chassis_number,
+                'payload' => $car->payload,
+                'sale_price' => $car->sale_price,
+            ];
+        });
+
+    return response()->json($cars);
+}
 }

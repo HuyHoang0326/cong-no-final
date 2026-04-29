@@ -82,11 +82,6 @@
                   </div>
 
                   <div class="detail-item">
-                      <label>Ngày Bán</label>
-                      <span>{{ $parst->sale_date }}</span>
-                  </div>
-
-                  <div class="detail-item">
                       <label>Giá Bán</label>
                       <span>{{ $parst->sale_price }}</span>
                   </div>

@@ -129,6 +129,7 @@ body {
     margin-bottom: 6px;
     font-size: 19px;
     color: #475569;
+    font-weight: bold;
 }
 
 .form-group input,
@@ -297,6 +298,10 @@ body {
     border-color: #3b82f6;
     box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
 }
+
+.head-inf{
+    text-align: center;
+}
 /* //---------------- search box serial in choose product-------------------- */
 .search-box {
     position: relative;
@@ -429,7 +434,8 @@ html, body {
 }
 
 .product-table{
-    min-width: 1400px;
+    width: 100%;
+    min-width: unset;
     table-layout:auto;
 }
 .field-car{
@@ -437,7 +443,7 @@ html, body {
 }
 .product-table input,
 .product-table select{
-    min-width:105px;
+  min-width: unset;
 }
 
 .document-checkbox-group{
@@ -511,6 +517,9 @@ html, body {
 .invoice-print .no-border td {
     border: none;
 }
+
+.hdbh{margin-top:-15px; text-align: center; font-weight: bold; font-size: 16px;}
+.sub-header{margin-top:-15px; text-align: center; font-weight: bold; font-size: 16px;}
 
 .invoice-print .signature {
     margin-top: 30px;
@@ -617,4 +626,178 @@ textarea[readonly] {
     font-size: 20px;
     margin-top: 4px;
     min-height: 16px;
+}
+
+#excelCar {
+    margin-bottom: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px dashed #3b82f6;
+    background: #eff6ff;
+    color: #2563eb;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+
+    transition: all 0.25s ease;
+}
+
+/* hover */
+#excelCar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+}
+
+/* click */
+#excelCar:active {
+    transform: scale(0.97);
+}
+
+/* icon */
+#excelCar::before {
+    font-size: 16px;
+}
+
+.btn-print {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+/* hover */
+.btn-print:hover {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
+}
+
+/* active */
+.btn-print:active {
+    transform: scale(0.97);
+}
+
+@media (max-width: 768px) {
+    .form-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    /* ===== FIX INPUT TRÀN ===== */
+    .form-group {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    /* ===== FIX CUSTOMER HEADER ===== */
+    .customer-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    /* ===== FIX CHECKBOX GROUP ===== */
+    .document-checkbox-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    /* ===== FIX DEBT WRAPPER ===== */
+    .debt-wrapper {
+        flex-direction: column;
+    }
+
+    /* ===== FIX SUMMARY TABLE ===== */
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .product-table{
+        display: block;
+    }
+
+    .product-table thead{
+        display: none;
+    }
+
+    .product-table tbody{
+        display: block;
+        width: 100%;
+    }
+
+    .product-table tr{
+        display: block;
+        margin-bottom: 15px;
+        padding: 12px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .product-table td{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 8px 10px;
+        border: none;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .product-table td:last-child{
+        border-bottom: none;
+    }
+
+    .product-table td::before{
+        content: attr(data-label);
+        font-weight: 600;
+        font-size: 12px;
+        color: #475569;
+    }
+
+    .product-table input,
+    .product-table select{
+        width: 100%;
+        font-size: 13px;
+        padding: 6px;
+    }
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #3b82f6;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+
+ input[type="checkbox"]:checked {
+    background: #3b82f6;
+}
+
+ input[type="checkbox"]:checked::after {
+    content: "✔";
+    color: white;
+    font-size: 12px;
+    position: absolute;
+    top: -2px;
+    left: 2px;
+}
 }
